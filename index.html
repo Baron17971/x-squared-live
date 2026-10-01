@@ -1,1 +1,48 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=teacher.html"><title>X בריבוע</title></head><body><script>location.replace("teacher.html")</script></body></html>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>X בריבוע</title>
+<style>
+:root{--ink:#183f4a;--teal:#6fa9aa;--sage:#b7c7b2;--cream:#fbf6ec;--paper:#fffdf8;--gold:#d7b66d;--line:#d8e0dc;--muted:#64757a}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Hebrew",sans-serif;background:linear-gradient(160deg,#fffdf8 0%,#f7f1e7 55%,#eef4f0 100%);color:var(--ink)}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px}
+.shell{width:min(1180px,100%);min-height:min(760px,calc(100vh - 44px));display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center;background:rgba(255,253,248,.9);border:1px solid rgba(24,63,74,.09);border-radius:34px;box-shadow:0 22px 60px rgba(41,66,67,.12);padding:58px;overflow:hidden;position:relative}
+.shell:before,.shell:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);opacity:.36}.shell:before{width:320px;height:320px;background:#dcebea;left:-130px;top:-120px}.shell:after{width:260px;height:260px;background:#efe0bd;right:-100px;bottom:-100px}
+.copy,.visual{position:relative;z-index:1}.eyebrow{font-size:15px;font-weight:800;letter-spacing:.04em;color:#6f8586;margin-bottom:14px}.title{font-size:clamp(50px,7vw,88px);line-height:.95;margin:0 0 16px;font-weight:900;letter-spacing:-.04em}.subtitle{font-size:clamp(22px,2.5vw,32px);line-height:1.25;margin:0 0 14px;font-weight:700}.desc{font-size:18px;line-height:1.75;color:var(--muted);max-width:620px;margin:0 0 30px}
+.teacher-btn{appearance:none;border:0;border-radius:18px;background:var(--ink);color:white;font-size:20px;font-weight:900;padding:17px 34px;min-width:220px;box-shadow:0 10px 24px rgba(24,63,74,.22);cursor:pointer;transition:.2s transform,.2s box-shadow}.teacher-btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(24,63,74,.28)}.teacher-btn:focus-visible{outline:4px solid #b9dcdd;outline-offset:4px}.note{margin-top:14px;font-size:13px;color:#7d8d8f}
+.visual{display:flex;justify-content:center;align-items:center}.board{width:min(460px,86vw);aspect-ratio:1;border-radius:26px;padding:14px;background:linear-gradient(145deg,#183f4a,#2d6670);box-shadow:0 26px 55px rgba(24,63,74,.24);display:grid;grid-template-columns:repeat(3,1fr);gap:9px;transform:rotate(-2deg)}
+.tile{background:#fffaf0;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;min-width:0;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px rgba(24,63,74,.08)}
+.xs .tile{padding:8px;font-size:clamp(12px,1.6vw,18px)}.xs .tile:nth-child(2n){background:#e6f0ee}.xs .tile:nth-child(3n){background:#f3e8cc}
+.four .tile{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;font-size:clamp(8px,1.05vw,12px)}.four .q{display:flex;align-items:center;justify-content:center;padding:4px;border:1px solid rgba(24,63,74,.08)}.four .q1{background:#e7f0ee}.four .q2{background:#f1e4c7}.four .q3{background:#dfe9df}.four .q4{background:#fff8ec}
+.badge{position:absolute;left:24px;top:24px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-weight:900;font-size:13px;color:#61797a;box-shadow:0 8px 18px rgba(30,50,50,.08)}
+@media(max-width:800px){body{padding:0;background:var(--cream)}.shell{min-height:100vh;border-radius:0;border:0;box-shadow:none;padding:34px 22px 28px;grid-template-columns:1fr;gap:26px;align-content:center}.copy{text-align:center}.desc{font-size:16px;margin:0 auto 24px}.teacher-btn{width:min(320px,100%)}.visual{order:-1}.board{width:min(360px,78vw);border-radius:22px;padding:11px;gap:7px}.title{font-size:50px}.subtitle{font-size:22px}.badge{left:18px;top:18px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<div class="badge">Xsite · כלי למידה</div>
+<section class="copy">
+  <div class="eyebrow">משחק כיתתי חכם</div>
+  <h1 class="title">X בריבוע</h1>
+  <p class="subtitle">מסובבים, מזיזים ומחברים מושגים.</p>
+  <p class="desc">בכל חיבור נכון שני מושגים משלימים נפגשים זה מול זה. משחק התאמות חזותי שמפעיל את כל הכיתה.</p>
+  <button class="teacher-btn" id="teacherLogin">כניסת מורה</button>
+  <div class="note">הכניסה מחוברת לחשבון המורה ב־Xsite</div>
+</section>
+<section class="visual" aria-hidden="true"><div class="board xs"><div class="tile t0"><span>DNA</span></div><div class="tile t1"><span>תורשה</span></div><div class="tile t2"><span>מיטוכונדריה</span></div><div class="tile t3"><span>נשימה</span></div><div class="tile t0"><span>דיפוזיה</span></div><div class="tile t1"><span>ריכוז</span></div><div class="tile t2"><span>ריבוזום</span></div><div class="tile t3"><span>חלבון</span></div><div class="tile t0"><span>אוסמוזה</span></div></div></section>
+</main>
+<script>
+const APP_ORIGIN="https://x-squared-live.vercel.app";
+const APP_ID="x-squared";
+const XSITE_BRIDGE="https://xsite-live-anats-projects-8c3e7bfa.vercel.app/";
+document.getElementById("teacherLogin").addEventListener("click",()=>{
+  const target=APP_ORIGIN+"/teacher.html?teacher=1";
+  const bridge=new URL(XSITE_BRIDGE);
+  bridge.searchParams.set("auth_for",APP_ID);
+  bridge.searchParams.set("next",target);
+  location.assign(bridge.toString());
+});
+</script>
+</body></html>
