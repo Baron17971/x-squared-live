@@ -1079,6 +1079,49 @@ document.getElementById("newCode").addEventListener("click",()=>{
 
 
 
+const XSITE_AUTH_STORAGE_KEY="sb-zydhfhfhspflvhlpmokj-auth-token";
+const XSITE_AUTH_BRIDGE="https://xsite-live-anats-projects-8c3e7bfa.vercel.app/";
+
+function decodeXsiteJwt(token){
+  try{
+    const part=token.split(".")[1]||"";
+    const base64=part.replace(/-/g,"+").replace(/_/g,"/");
+    const json=decodeURIComponent(atob(base64).split("").map(ch=>"%"+("00"+ch.charCodeAt(0).toString(16)).slice(-2)).join(""));
+    return JSON.parse(json);
+  }catch(e){return {}}
+}
+
+function consumeXsiteAuthBridge(){
+  try{
+    const hash=new URLSearchParams(location.hash.replace(/^#/,""));
+    if(hash.get("oauth_bridge")!=="1")return null;
+    const access_token=hash.get("access_token")||"";
+    const refresh_token=hash.get("refresh_token")||"";
+    if(!access_token||!refresh_token)return null;
+    const claims=decodeXsiteJwt(access_token);
+    const session={
+      access_token,
+      refresh_token,
+      token_type:hash.get("token_type")||"bearer",
+      expires_at:Number(hash.get("expires_at")||claims.exp||0),
+      user:{id:claims.sub||"",email:claims.email||""}
+    };
+    if(!session.user.id)return null;
+    localStorage.setItem(XSITE_AUTH_STORAGE_KEY,JSON.stringify(session));
+    history.replaceState({},document.title,location.pathname+location.search);
+    return session;
+  }catch(e){return null}
+}
+
+function redirectToXsiteGoogle(targetUrl){
+  const url=new URL(XSITE_AUTH_BRIDGE);
+  url.searchParams.set("auth_for","x-squared");
+  url.searchParams.set("next",targetUrl||location.href);
+  location.assign(url.toString());
+}
+
+consumeXsiteAuthBridge();
+
 function getXsiteAuthSession(){
   try{
     for(let i=0;i<localStorage.length;i++){
@@ -1096,7 +1139,10 @@ function getXsiteAuthSession(){
 
 async function saveToXsiteArchive(project){
   const session=getXsiteAuthSession();
-  if(!session) return {ok:false,reason:"auth"};
+  if(!session){
+    redirectToXsiteGoogle(location.href);
+    return {ok:false,reason:"redirecting"};
+  }
 
   const res=await fetch("https://zydhfhfhspflvhlpmokj.supabase.co/rest/v1/teacher_projects",{
     method:"POST",
@@ -1148,6 +1194,8 @@ document.getElementById("saveArchive").addEventListener("click",async()=>{
       status.textContent="הפעילות הועברה לארכיון Xsite ✓";
     }else if(result.reason==="auth"){
       status.textContent="כדי לשמור בארכיון האישי יש להתחבר ל־Xsite.";
+    }else if(result.reason==="redirecting"){
+      status.textContent="מעביר להתחברות ל־Xsite…";
     }else{
       status.textContent="לא הצלחנו לשמור בארכיון Xsite כרגע.";
     }
@@ -1255,7 +1303,7 @@ async function loadXsiteProjectFromUrl(){
 
   const session=getXsiteAuthSession();
   if(!session){
-    alert("כדי לפתוח פעילות מהספרייה יש להתחבר ל־Xsite.");
+    redirectToXsiteGoogle(location.href);
     return;
   }
 
@@ -1317,8 +1365,7 @@ async function loadSavedActivities(){
   panel.hidden=false;
   document.getElementById("openCodePanel").hidden=true;
   if(!session){
-    select.innerHTML='<option value="">נדרשת התחברות ל־Xsite</option>';
-    msg.textContent="התחבר ל־Xsite כדי לטעון פעילויות מהספרייה האישית.";
+    redirectToXsiteGoogle(location.href);
     return;
   }
   select.innerHTML='<option value="">טוען פעילויות…</option>';
